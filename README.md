@@ -1,1 +1,2 @@
-# algospot
+# AlgorithmStudy
+
