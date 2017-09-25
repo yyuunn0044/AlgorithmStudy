@@ -47,7 +47,7 @@ int main(){
 				mincost = thiscost;
 			}
 		}
-		printf("%.7f\n", mincost);
+		printf("%.11f\n", mincost);
 
 	}
 	return 0;
