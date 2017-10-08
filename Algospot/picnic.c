@@ -19,17 +19,12 @@ int redundancy_check(long long selected){
 	return 0;
 }
 int picnic(int start, int select_num, long long selected){
-//	printf("picnic: start %d select_num %d seleted %lld\n", start, select_num, selected);
 	int i=0, sum=0;
 	if ( redundancy_check(selected) == 1 ){
 		return 0;
 	}
 	if ( select_num == 0 ){
-//		printf("select num is 0,,,selected: %lld\n", selected);
-//		if (redundancy_check(selected) == 0){
-			return 1;
-	//	}
-	//	return 0;
+		return 1;
 	}
 	for(i=start; i<(friends-select_num+2); i++){
 		sum += picnic(i+1, select_num-1, selected*100+i);
