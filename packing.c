@@ -7,9 +7,13 @@ int count = 0;
 int goods, capicity;
 char packed[100] = {0, };
 char names[100][21];
+int cache[100][1000] = {-1, };
 int packing(int index, int this_cap){
 	if (index == goods)
 		return 0;
+	if (cache[index][this_cap] != -1){
+		return cache[index][this_cap];
+	}
 	int ans1 = -1;
 	int ans2 = -1;
 	int this_max;
@@ -22,6 +26,7 @@ int packing(int index, int this_cap){
 			this_max = ans1;
 		}
 	}
+	cache[index][this_cap] = this_max;
 	return this_max;
 	
 }
@@ -42,6 +47,14 @@ void printf_names(int index, int this_cap){
 	
 	
 }
+void cache_reset(){
+	int i,j;
+	for(i=0; i<100; i++){
+		for(j=0; j<1000; j++){
+			cache[i][j]= -1;
+		}
+	}
+}
 int main(){
 	int i, j, k, a, test, ans;
 
@@ -49,6 +62,7 @@ int main(){
 	for(a=0; a<test; a++){
 		count = 0;
 		memset(packed, 0, 100);			
+		cache_reset();	
 		scanf("%d %d", &goods, &capicity);
 		vol = (int*)malloc(goods * sizeof(int));
 		happy = (int*)malloc(goods * sizeof(int));
