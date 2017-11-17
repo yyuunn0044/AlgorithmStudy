@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 int * vol;
 int * happy;
 int count = 0;
 int goods, capicity;
 char packed[100] = {0, };
-char names[100][21] = {NULL, };
+char names[100][21];
 int packing(int index, int this_cap){
 	if (index == goods)
 		return 0;
@@ -46,10 +48,10 @@ int main(){
 	scanf("%d", &test);
 	for(a=0; a<test; a++){
 		count = 0;
-		memset(packed, 0, sizeof(char)*100);			
+		memset(packed, 0, 100);			
 		scanf("%d %d", &goods, &capicity);
-		vol = malloc(goods * sizeof(int));
-		happy = malloc(goods * sizeof(int));
+		vol = (int*)malloc(goods * sizeof(int));
+		happy = (int*)malloc(goods * sizeof(int));
 		for(i=0; i<goods; i++){
 			scanf("%s %d %d", &names[i][0], &vol[i], &happy[i]);
 			
