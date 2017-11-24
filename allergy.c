@@ -8,6 +8,8 @@ int best_chosen;
 
 void best(int first, int chosen){
 	int i, j;
+	if (chosen>best_chosen)
+		return;
 	if (first == friends){
 		if (chosen<best_chosen)
 			best_chosen = chosen;
