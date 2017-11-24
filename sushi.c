@@ -3,14 +3,14 @@ int kinds, budget;
 int price[20];
 int point[20];
 int best[201];
+int total_best;
 int max(int a, int b){
 	return a>b?a:b;
 }
 void sushi(){
 	int i,j;
-	for(i=0; i<kinds; i++){
-		best[price[i]] = point[i];
-	}
+	total_best = 0;
+	best[0] = 0;
 	for(i=1; i<=budget; i++){
 		best[i%201] = 0;
 		for(j=0; j<kinds; j++){
@@ -18,7 +18,7 @@ void sushi(){
 				best[i%201] = max(best[i%201], best[(i-price[j])%201]+point[j]);
 			}
 		}
-		
+		total_best = max(total_best, best[i%201]);
 	}
 	
 }
@@ -36,6 +36,6 @@ int main(){
 	}
 	budget = budget/100;
 	sushi();
-	printf("%d\n", best[budget%201]);
+	printf("%d\n", total_best);
 	}
 }
