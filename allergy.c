@@ -19,13 +19,13 @@ void best(int first, int chosen){
 	else{
 		for(i=0; i<foods; i++){
 			if (eats[first][i] == 1){
-				for(j=0; j<friends; j++){
+				for(j=first; j<friends; j++){
 					if (eats[j][i] == 1){
 						canEat[j] += 1;
 					}
 				}
 				best(first+1, chosen+1);
-				for(j=0; j<friends; j++){
+				for(j=first; j<friends; j++){
 					if (eats[j][i] == 1){
 						canEat[j] -= 1;
 					}
