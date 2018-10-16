@@ -3,6 +3,11 @@ import os
 import sys
 TEST_FLAG = 1
 
+'''
+This template can be used to test problems of SW Expert Academy,
+whose test cases consist of a certain number('inputLines') of lines.
+Usage: python template.py {name of problem directory}
+'''
 def getInputLines(input_path):
     with open(input_path, 'r') as file:
         text = file.read().split("\n")
