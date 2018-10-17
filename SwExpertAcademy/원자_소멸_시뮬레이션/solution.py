@@ -9,30 +9,28 @@ INT_TO_DIFF= {
 }
 def outOfBound(atom_xy):
     x, y = atom_xy
-    if (0 <= x <= 2000) and (0 <= y <= 2000):
+    if (-1000 <= x <= 1000) and (-1000 <= y <= 1000):
         return False
     return True
 
-def atomTimeRuns(idx):
-    src, diff, energy = atoms[idx]
+'''
+def atomTimeRuns(atom):
+    src, diff, energy = atom
     dst = (src[0] + diff[0], src[1] + diff[1])
-    atoms[idx][0] = dst
-
+    return dst, diff, energy
+'''
 def timeRuns():
     global atoms
     energy = 0
-    for atom_idx in range(len(atoms)):
-        atomTimeRuns(atom_idx)
-    atoms = [atom for atom in atoms if not outOfBound(atom[0])]
-    locas = set([atom[0] for atom in atoms])
-    if len(locas) != len(atoms):
-        duplicates = set()
-        for atom in atoms:
-            sameLocaAtoms = filter(lambda e: e[0]==atom[0], atoms)
-            if len(list(sameLocaAtoms)) > 1:
-                duplicates.add(atom[0])
-                energy += atom[2]
-        atoms = [atom for atom in atoms if atom[0] not in duplicates]
+    for i in range(100):
+        atoms = [[(atom[0][0] + atom[1][0], atom[0][1] + atom[1][1]), atom[1], atom[2]]
+                    for atom in atoms if not outOfBound(atom[0])]
+        locas = [atom[0] for atom in atoms]
+        duplicates = [loca for loca in locas if locas.count(loca) > 1]
+        removed_atoms = [atom for atom in atoms if atom[0] in duplicates]
+        for removed in removed_atoms:
+            energy += removed[2]
+            atoms.remove(removed)
     return energy
 
 def solution():
@@ -53,7 +51,7 @@ if __name__ == "__main__":
         atoms = []
         for i in range(N):
             x, y, dir, energy = input().split()
-            atoms.append([(int(x)+1000, int(y)+1000), INT_TO_DIFF[dir], int(energy)])
+            atoms.append([(int(x), int(y)), INT_TO_DIFF[dir], int(energy)])
         actual = "#"+str(test_case)+" "+str(solution())
         print(actual)
         
