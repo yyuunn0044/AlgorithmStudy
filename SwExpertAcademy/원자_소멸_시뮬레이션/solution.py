@@ -24,13 +24,15 @@ def timeRuns():
     for atom_idx in range(len(atoms)):
         atomTimeRuns(atom_idx)
     atoms = [atom for atom in atoms if not outOfBound(atom[0])]
-    duplicates = set()
-    for atom in atoms:
-        sameLocaAtoms = filter(lambda e: e[0]==atom[0], atoms)
-        if len(list(sameLocaAtoms)) > 1:
-            duplicates.add(atom[0])
-            energy += atom[2]
-    atoms = [atom for atom in atoms if atom[0] not in duplicates]
+    locas = set([atom[0] for atom in atoms])
+    if len(locas) != len(atoms):
+        duplicates = set()
+        for atom in atoms:
+            sameLocaAtoms = filter(lambda e: e[0]==atom[0], atoms)
+            if len(list(sameLocaAtoms)) > 1:
+                duplicates.add(atom[0])
+                energy += atom[2]
+        atoms = [atom for atom in atoms if atom[0] not in duplicates]
     return energy
 
 def solution():
