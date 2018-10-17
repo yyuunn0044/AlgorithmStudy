@@ -1,6 +1,7 @@
 import sys
 import os
 from pprint import pprint
+DIRECTION = ['U', 'D', 'L', 'R']
 digit_direction = {
     "U": (-1, 0),
     "D": (1, 0),
@@ -37,8 +38,8 @@ def outOfBoard(r, c):
 def go(start, direction):
     print(start, direction)
     point = 0
-    r_diff, c_diff = digit_direction[direction]
     r, c = start
+    r_diff, c_diff = digit_direction[direction]
     n_r, n_c = r+r_diff, c+c_diff
     if outOfBoard(n_r, n_c):
         n_r, n_c = r, c
@@ -62,30 +63,47 @@ def go(start, direction):
         pass
 
     return ((n_r, n_c), next_direction, point)
-def totalRoute(departure, direction):
+def totalRoute(unvisited):
     route = []
     total_point = 0
-    start = departure
-    while not departure in route:
-        n_start, n_direction, point = go(start, direction)
-        print(n_start, n_direction, point)
+    start = src = unvisited[0:2]
+    src_direc = unvisited[2]
+    while not start in route:
+        dst, dst_direc, point = go(src, src_direc)
+        print(dst, dst_direc, point)
         if point == -1:
             break
         total_point += point 
-        start = n_start
-        direction = n_direction
-        route += [start]
+        src = dst
+        src_direc = dst_direc
+        route += [(src[0], src[1], src_direc)]
     print("this route",total_point)
     return total_point
+
+def getUnvisitedRoute():
+    unvisited = []
+    for r in range(N):
+        for c in range(N):
+            if board[r][c] == 0:
+                unvisited.extend([(r, c, direc) for direc in DIRECTION])
+    return unvisited
+
+def removeUnvisited(unvisited, route):
+    for r in route:
+        other = tuple(r[0:2] + flat[r[2]])
+        unvisited.remove(r)
+        unvisited.remove(other)
+    return unvisited
+
 def solution(N, board):
     maxScore = 0
-    blackholes = getIndex(-1)
-    direcs = ["U", "D", "L", "R"]
-    for blackhole in blackholes:
-        for direc in direcs:
-            score = totalRoute(blackhole, direc)
-            if score > maxScore:
-                maxScore = score
+    unvisited = getUnvisitedRoute()
+    while len(unvisited) != 0:
+        u = unvisited[0]
+        route, score = totalRoute(u)
+        unvisited = removeUnvisited(unvisited, route)
+        if score > maxScore:
+            maxScore = score
     return maxScore
 
 if __name__ == "__main__":
